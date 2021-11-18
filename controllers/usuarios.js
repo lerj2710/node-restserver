@@ -1,8 +1,14 @@
-const {response}= require('express');
+const {response, request}= require('express');
 
-const usuariosGet =  (req, res = response)=>{
+const usuariosGet =  (req= request, res = response)=>{
+   
+    const {q,nombre, apikey}= req.query;
+
     res.json({
-        msg: 'get API - usuariosGet'
+        msg: 'get API - usuariosGet',
+        q,
+        nombre, 
+        apikey 
     })
 }
 const usuariosPost= (req, res = response)=>{
@@ -13,9 +19,11 @@ const usuariosPost= (req, res = response)=>{
         edad
     })
 }
-const usuariosPut= (req, res = response)=>{
+const usuariosPut= (req= request, res = response)=>{
+    const { id } = req.params.id
     res.json({
-        msg: 'put API - usuariosPut'
+        msg: 'put API - usuariosPut',
+        id
     })
 }
 const usuariosPatch= (req, res = response)=>{
