@@ -20,7 +20,7 @@ const usuariosPost= (req, res = response)=>{
     })
 }
 const usuariosPut= (req= request, res = response)=>{
-    const { id } = req.params.id
+    const { id } = req.params
     res.json({
         msg: 'put API - usuariosPut',
         id
