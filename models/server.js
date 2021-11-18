@@ -16,9 +16,11 @@ class Server{
     }
 
     middleware(){
+        //lectura y parseo(obtener datos) del body
+        this.app.use( express.json());
         //CORS
         this.app.use(cors());
-        this.app.use( express.static('public'))
+        this.app.use( express.static('public'));
     }
     routers(){
 

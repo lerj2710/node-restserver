@@ -1,26 +1,29 @@
-const {}= require('express');
+const {response}= require('express');
 
-const usuariosGet =  (req, res)=>{
+const usuariosGet =  (req, res = response)=>{
     res.json({
         msg: 'get API - usuariosGet'
     })
 }
-const usuariosPost= (req, res)=>{
+const usuariosPost= (req, res = response)=>{
+    const {nombre, edad} = req.body
     res.json({
-        msg: 'post API - usuariosPost'
+        msg: 'post API - usuariosPost',
+        nombre,
+        edad
     })
 }
-const usuariosPut= (req, res)=>{
+const usuariosPut= (req, res = response)=>{
     res.json({
         msg: 'put API - usuariosPut'
     })
 }
-const usuariosPatch= (req, res)=>{
+const usuariosPatch= (req, res = response)=>{
     res.json({
         msg: 'patch API - usuariosPatch'
     })
 }
-const usuariosDelete= (req, res)=>{
+const usuariosDelete= (req, res = response)=>{
     res.json({
         msg: 'delete API -usuariosDelete cpmt'
     })
