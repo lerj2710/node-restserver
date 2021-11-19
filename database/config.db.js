@@ -1,3 +1,4 @@
+require('colors');
 const mongoose = require('mongoose');
 
 
@@ -14,7 +15,7 @@ try {
 
     });
 
-    console.log('base de datos online');
+    console.log(`base de datos ${'CONECTADA'.green } "online" `);
 
 } catch (error) {
     console.log(error);
