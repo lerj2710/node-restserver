@@ -22,13 +22,7 @@ const usuariosPost= async(req, res = response)=>{
     const {nombre, correo, password, rol} = req.body
     const usuario = new Usuario({nombre, correo, password, rol});
    
-        //utenticar correo duplicado
-    const exiteEmail = await Usuario.findOne({ correo });
-        if (exiteEmail) {
-            return res.status(400).json({
-                msg: 'el correo ya se encuentra registrado'
-            })
-        }
+    
 
         //encriptar la contraseña
     const salt = bcryptjs.genSaltSync();
