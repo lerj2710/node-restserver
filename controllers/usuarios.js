@@ -5,14 +5,25 @@ const Usuario = require('../models/usuario');
 //=============== Metodo Get  ===============
 const usuariosGet = async (req= request, res = response)=>{
    
-    // const {q,nombre, apikey}= req.query;
+    // // const {q,nombre, apikey}= req.query;
     const { limite = 5 , desde = 0} = req.query;
-    const usuariosGet = await Usuario.find()
-            .skip(Number(desde))
-            .limit( Number(limite)  );
+    
+    // const usuariosGet = await Usuario.find()
+    //         .skip(Number(desde))
+    //         .limit( Number(limite)  );
+    //============= //toal de usuario
+    // const totalUsuarios = await Usuario.countDocuments();
 
+    const [totalUsuarios, usuariosGet]= await Promise.all([
+         Usuario.countDocuments(),
+          Usuario.find()
+            .skip(Number(desde))
+            .limit( Number(limite) )
+    ])
     res.json({
-        usuariosGet
+     totalUsuarios,
+     usuariosGet
+
     })
 }
 //=============== Metodo Post  ===============
