@@ -3,15 +3,16 @@ const bcryptjs = require('bcryptjs');
 
 const Usuario = require('../models/usuario');
 //=============== Metodo Get  ===============
-const usuariosGet =  (req= request, res = response)=>{
+const usuariosGet = async (req= request, res = response)=>{
    
-    const {q,nombre, apikey}= req.query;
+    // const {q,nombre, apikey}= req.query;
+    const { limite = 5 , desde = 0} = req.query;
+    const usuariosGet = await Usuario.find()
+            .skip(Number(desde))
+            .limit( Number(limite)  );
 
     res.json({
-        msg: 'get API - usuariosGet',
-        q,
-        nombre, 
-        apikey 
+        usuariosGet
     })
 }
 //=============== Metodo Post  ===============
@@ -34,6 +35,7 @@ const usuariosPost= async(req, res = response)=>{
 }
 
 //=============== Metodo Put  ===============
+
 const usuariosPut= async (req= request, res = response)=>{
 
     const { id } = req.params;
@@ -48,10 +50,7 @@ const usuariosPut= async (req= request, res = response)=>{
 
     const usuarioDB = await Usuario.findByIdAndUpdate(id, resto)
 
-    res.json({
-        msg: 'put API - usuariosPut',
-        usuarioDB
-    })
+    res.json( usuarioDB );
 }
 //=============== Metodo Patch  ===============
 const usuariosPatch= (req, res = response)=>{
