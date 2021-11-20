@@ -16,17 +16,13 @@ const usuariosGet =  (req= request, res = response)=>{
 }
 //=============== Metodo Post  ===============
 const usuariosPost= async(req, res = response)=>{
-   
-
 
     const {nombre, correo, password, rol} = req.body
     const usuario = new Usuario({nombre, correo, password, rol});
-   
-    
 
         //encriptar la contraseña
     const salt = bcryptjs.genSaltSync();
-            usuario.password = bcryptjs.hashSync(password, salt);
+    usuario.password = bcryptjs.hashSync(password, salt);
 
     //guardar en base de datos
     await usuario.save();
@@ -36,12 +32,25 @@ const usuariosPost= async(req, res = response)=>{
         usuario
     })
 }
+
 //=============== Metodo Put  ===============
-const usuariosPut= (req= request, res = response)=>{
-    const { id } = req.params
+const usuariosPut= async (req= request, res = response)=>{
+
+    const { id } = req.params;
+    const { _id, password, google, correo,  ...resto } = req.body;
+
+    //TODO validar contra base de datos
+    if(password){
+        //encriptar la contraseña
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync(password, salt);
+    };
+
+    const usuarioDB = await Usuario.findByIdAndUpdate(id, resto)
+
     res.json({
         msg: 'put API - usuariosPut',
-        id
+        usuarioDB
     })
 }
 //=============== Metodo Patch  ===============

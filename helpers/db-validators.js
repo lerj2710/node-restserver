@@ -14,11 +14,20 @@ const esRolValido = async(rol='')=>{
 
       const exiteEmail = await Usuario.findOne({ correo });
           if (exiteEmail) {
-            throw new Error(`el correo: ${correo} ya se registrado`)
+            throw new Error(`el correo: ${ correo } ya se registrado`)
           }
-  }
+  };
+    // identicar si el usuario tiene un id
+  const exitUserId = async ( id )=>{
+
+    const exitUser = await Usuario.findById(id);
+        if ( !exitUser) {
+          throw new Error(`el id: ${ id } no exite`)
+        }
+}
 
 module.exports= {
     esRolValido,
-    emailExite
+    emailExite,
+    exitUserId
 };

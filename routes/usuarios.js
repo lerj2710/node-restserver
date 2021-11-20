@@ -3,7 +3,7 @@ const { check }         = require('express-validator');
 
 
 const { validarCampos } = require('../middlewares/validar-campos');
-const { esRolValido, emailExite } = require('../helpers/db-validators');
+const { esRolValido, emailExite, exitUserId } = require('../helpers/db-validators');
 
 
 const { usuariosGet,
@@ -25,12 +25,17 @@ router.post('/', [
     check('password','El password debe tener mas de 6 campos').isLength({ min: 6}),
     check('correo').custom( emailExite ),
     // check('rol','rol no valido').isIn(['ADMIN_ROLE','USER_ROLE']),
-    check('rol').custom( esRolValido )  ,
+    check('rol').custom( esRolValido ),
     validarCampos   
 ],usuariosPost );
 
 //=============== Metodo Put  ===============
-router.put('/:id', usuariosPut);
+router.put('/:id',[
+    check('id','No es un ID valido ').isMongoId(),
+    check('id').custom( exitUserId ),
+    check('rol').custom( esRolValido ),
+    validarCampos
+], usuariosPut);
 
 //=============== Metodo Patch  ==============
 router.patch('/', usuariosPatch);
