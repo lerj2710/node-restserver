@@ -7,16 +7,11 @@ const usuariosGet = async (req= request, res = response)=>{
    
     // // const {q,nombre, apikey}= req.query;
     const { limite = 5 , desde = 0} = req.query;
+    const query= {estado: true}
     
-    // const usuariosGet = await Usuario.find()
-    //         .skip(Number(desde))
-    //         .limit( Number(limite)  );
-    //============= //toal de usuario
-    // const totalUsuarios = await Usuario.countDocuments();
-
-    const [totalUsuarios, usuariosGet]= await Promise.all([
-         Usuario.countDocuments(),
-          Usuario.find()
+    const [ totalUsuarios, usuariosGet ]= await Promise.all([
+         Usuario.countDocuments(query),
+          Usuario.find(query)
             .skip(Number(desde))
             .limit( Number(limite) )
     ])
@@ -70,10 +65,14 @@ const usuariosPatch= (req, res = response)=>{
     })
 }
 //=============== Metodo Delete  ===============
-const usuariosDelete= (req, res = response)=>{
-    res.json({
-        msg: 'delete API -usuariosDelete cpmt'
-    })
+const usuariosDelete= async (req, res = response)=>{
+    
+    const {id} = req.params;
+    //borrarlo fisicamente
+    const user = await Usuario.findByIdAndDelete(id);
+    // const user = await Usuario.findOneAndUpdate(id, {estado: false})
+
+    res.json(user)
 }
 
 
