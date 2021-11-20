@@ -1,7 +1,9 @@
 const {response, request}= require('express');
-const Usuario = require('../models/usuario');
-const bcryptjs = require('bcryptjs')
+const bcryptjs = require('bcryptjs');
+const { validationResult } = require('express-validator');
 
+const Usuario = require('../models/usuario');
+//=============== Metodo Get  ===============
 const usuariosGet =  (req= request, res = response)=>{
    
     const {q,nombre, apikey}= req.query;
@@ -13,16 +15,29 @@ const usuariosGet =  (req= request, res = response)=>{
         apikey 
     })
 }
+//=============== Metodo Post  ===============
 const usuariosPost= async(req, res = response)=>{
-    
+   
+        //verificar si el correo es valido 
+    const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors)
+        }
+
     const {nombre, correo, password, rol} = req.body
     const usuario = new Usuario({nombre, correo, password, rol});
-    //autenticar correo
+   
+        //utenticar correo duplicado
+    const exiteEmail = await Usuario.findOne({ correo });
+        if (exiteEmail) {
+            return res.status(400).json({
+                msg: 'el correo ya se encuentra registrado'
+            })
+        }
 
-    //encriptar la contraseña
-
+        //encriptar la contraseña
     const salt = bcryptjs.genSaltSync();
-          usuario.password = bcryptjs.hashSync(password, salt);
+            usuario.password = bcryptjs.hashSync(password, salt);
 
     //guardar en base de datos
     await usuario.save();
@@ -32,6 +47,7 @@ const usuariosPost= async(req, res = response)=>{
         usuario
     })
 }
+//=============== Metodo Put  ===============
 const usuariosPut= (req= request, res = response)=>{
     const { id } = req.params
     res.json({
@@ -39,11 +55,13 @@ const usuariosPut= (req= request, res = response)=>{
         id
     })
 }
+//=============== Metodo Patch  ===============
 const usuariosPatch= (req, res = response)=>{
     res.json({
         msg: 'patch API - usuariosPatch'
     })
 }
+//=============== Metodo Delete  ===============
 const usuariosDelete= (req, res = response)=>{
     res.json({
         msg: 'delete API -usuariosDelete cpmt'
