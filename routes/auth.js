@@ -4,17 +4,22 @@ const { check }         = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 // == controller
-const { login } = require('../controllers/auth');
+const { login, googleSignin } = require('../controllers/auth');
 
 
 const router = Router();
-//=============== Metodo Get  ===============
+//=============== Metodo Post  ===============
 router.post('/login',[
     check('correo', 'el correo es obligatorio').isEmail(),
     check('password', 'la contraseña es obligatoria').not().isEmpty(),
     validarCampos
 ], login);
 
+//=============== Google Signin Post  ===============
+router.post('/google',[
+    check('id_token', 'el id_token es necesrario').not().isEmpty(),
+    validarCampos
+], googleSignin );
 
 
 module.exports= router;
