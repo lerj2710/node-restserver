@@ -30,7 +30,7 @@ const token = req.header('x-token');
         //verificar si el uid esta em etado true
         if(!usuario.estado ){
             return res.status(401).json({
-                msg: 'token no valid -usuario en estado: false'
+                msg: 'token no valido -usuario en estado: false'
             })
         }
 
