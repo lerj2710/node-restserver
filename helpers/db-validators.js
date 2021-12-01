@@ -1,5 +1,5 @@
-const Rol     = require('../models/role');
-const Usuario = require('../models/usuario');
+const Rol = require('../models/role');
+const { Usuario , Categoria } = require('../models');
 
 //extraer un rol valido de la base de datos
 const esRolValido = async(rol='')=>{
@@ -24,10 +24,18 @@ const esRolValido = async(rol='')=>{
         if ( !exitUser) {
           throw new Error(`el id: ${ id } no exite`)
         }
+  };
+  const exiteCategoriaPorId = async ( id )=>{
+
+    const exiteCategoria = await Categoria.findById(id);
+        if ( !exiteCategoria) {
+          throw new Error(`el id: ${ id } no exite`)
+        }
 }
 
 module.exports= {
     esRolValido,
     emailExite,
-    exitUserId
+    exitUserId,
+    exiteCategoriaPorId
 };
