@@ -72,17 +72,15 @@ const actualizarCategoria = async(req, res = response)=>{
 }
 
 //borrarCategoria estado:false 
-    const borrarCategoria = async(req, res = response)=>{
-        
-        const { id } = req.params;
+const borrarCategoria = async(req, res = response)=>{
+    
+    const { id } = req.params;
 
-        const categoriaBorrada = await Categoria.findOneAndUpdate( id , {estado: false}, {new: true})
-        
-        // const usuarioAtutenticado = req.usuario 
-            res.json(categoriaBorrada)
-    }
-
-
+    const categoriaBorrada = await Categoria.findOneAndUpdate( id , {estado: false}, {new: true})
+    
+    // const usuarioAtutenticado = req.usuario 
+        res.json(categoriaBorrada)
+}
 
 module.exports= {
     obtenerCategorias,
