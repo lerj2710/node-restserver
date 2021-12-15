@@ -69,8 +69,53 @@ let  modelo;
   res.json( modelo );
 }
 
+const mostrarImagen = async(req, res = response)=>{
+  
+  const { id, coleccion } = req.params;
+  let  modelo; 
+  
+    switch ( coleccion ) {
+  
+      case 'usuarios':
+        modelo = await Usuario.findById(id);
+          if( !modelo ) {
+            return res.status(400).json({
+              msg : `No exite un usuario con el id ${ id }`
+            });
+          };
+        break;
+  
+      case 'productos':
+        modelo = await Producto.findById(id);
+          if( !modelo ) {
+            return res.status(400).json({
+              msg : `No exite un productos con el id ${ id }`
+            });
+          };
+        break;
+    
+      default:
+        return res.status(500).json({ msg: 'no cree esta validacion '} );
+    };
+  
+      
+      //limpiar img previo 
+      if( modelo.img ){
+        //borrar img del servidor
+        const pathImagen = path.join( __dirname, '../uploads', coleccion,  modelo.img );
+        if( fs.existsSync( pathImagen ) ) {
+            return res.sendFile( pathImagen );
+        }
+      }
+  
+  
+   const pathImgError = path.join( __dirname, '../assets/no-image.jpg');
+      res.sendFile(pathImgError);
+};
+
 
 module.exports={
   cargarArchivo,
-  ActulizarImagen
+  ActulizarImagen,
+  mostrarImagen
 };
