@@ -5,14 +5,15 @@ const { subirArchivo } = require('../helpers/subir-archivo');
 const cargarArchivo = async (req, res = response)=>{
 
 
-    if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
-      res.status(400).json({msg: 'no hay archivos en la peticion'});
-      return;
-    }
-  const nombre = await subirArchivo(req.files);
+  //   if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
+  //     res.status(400).json({msg: 'no hay archivos en la peticion'});
+  //     return;
+  //   }
+  // const nombre = await subirArchivo(req.files);
 
   res.json({
-      nombre
+      // nombre
+      msg: 'hola mundo'
   })
 
 };
