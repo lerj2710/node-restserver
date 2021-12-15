@@ -38,7 +38,7 @@ const exitUserId = async ( id )=>{
 };
 /**
  * 
- * producto s
+ * productos
  */
 const exiteProductoPorId = async( id ) => {
 
@@ -47,10 +47,23 @@ const exiteProductoPorId = async( id ) => {
         throw new Error(`el id no existe ${ id } `);
       };
 };
+/**
+ * 
+ * validar colecciones permitidas
+ */
+const colecionesPermitidas = ( coleccion = '', colecciones = [] ) => {
+  const incluida = colecciones.includes( coleccion );
+  if( !incluida ){
+    throw new Error(`La coleccion ${ coleccion } no es permitida. -- ${ colecciones }`);
+  }
+  return true;
+
+};
 module.exports= {
     esRolValido,
     emailExite,
     exitUserId,
     exiteCategoriaPorId,
-    exiteProductoPorId
+    exiteProductoPorId,
+    colecionesPermitidas
 };
