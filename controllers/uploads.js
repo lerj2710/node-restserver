@@ -9,10 +9,15 @@ const cargarArchivo = async (req, res = response)=>{
     res.status(400).json({ msg: 'no hay archivos que subir.'});
     return;
   }
-
- const nombre = await subirArchivo(req.files);
-
- res.json({ nombre })
+  try {
+    
+    
+    //  const nombre = await subirArchivo(req.files, ['txt', 'md'], 'textos' ); // subir archivo de texto o md
+     const nombre = await subirArchivo(req.files, undefined, 'imgs' ); // subir archivo de texto o md
+     res.json({ nombre })
+  } catch (msg) {
+    res.status(400).json({ msg })
+  }
 
 };
 
