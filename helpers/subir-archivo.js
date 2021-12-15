@@ -1,36 +1,35 @@
-const path = require('path');
+const { rejects } = require('assert');
+const path = require('path')
 const { v4: uuidv4 } = require('uuid');
 
-const subirArchivo = ( files , extensionValida = ['jpg','jpg' ,'png', 'jpeg', 'gif'], carpeta ='' ) =>{
-    return new Promise( (resolve, reject)=>{
+const subirArchivo = ( files, extensionesValidas = ['png', 'jpg', 'jpeg', 'gif'], carpeta = '' )=> {
 
-    //controlar mi archivo de cargas solo img -- validar la extension
+    return new Promise(( resolve, reject,  ) =>{
 
-    const { archivo } = files;
-    const nombreCortado = archivo.name.split('.');
-    const extension = nombreCortado[ nombreCortado.length -1 ];
-
-    if( !extensionValida.includes( extension )) {
-       return reject(`La extension ${ extension } no es permitida`)
-    }
-  
-    //usar un identificador unico para mis archivos y no tener nombre duplicado
-    const nombreTemporal = uuidv4() + '.' + extension; 
-    //   este codigo ayuda a subir el archivo 
-    const uploadPath = path.join(__dirname, '../uploads/', carpeta, nombreTemporal);
-
-    archivo.mv(uploadPath, function(err) {
-    if (err) {
-        reject(err);
-    }
-
-    resolve(nombreTemporal);
+        const { archivo } = files;
+        const nombreCortado = archivo.name.split('.');  
+        const extension = nombreCortado[ nombreCortado.length - 1 ];
+      
+        //====== validar la extension ===
+      
+          if(!extensionesValidas.includes(extension)){
+            return reject(`la extensiom ${ extension } no es valida. - extensiones validas son ${ extensionesValidas}`);
+          }
+      
+        const nombreTemp = uuidv4() + '.' + extension ; 
+        const  uploadPath  = path.join( __dirname , '../uploads/', carpeta , nombreTemp );
+      
+        archivo.mv(uploadPath, (err) => {
+          if (err) {
+             reject(err);
+          }
+      
+         resolve( nombreTemp );
+        });
     });
-});
-
-}
+};
 
 
-module.exports = {
+module.exports= {
     subirArchivo
 }

@@ -9,8 +9,8 @@ const subirArchivo = require('./subir-archivo')
 
 
 module.exports  = {
-    dbValidators,
-    generarJWT,
-    googleVerify,
-    subirArchivo,
+    ...dbValidators,
+    ...generarJWT,
+    ...googleVerify,
+    ...subirArchivo,
 }
